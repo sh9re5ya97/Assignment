@@ -14,7 +14,14 @@ print(wb.sheet_names())
 
 
 sh = wb.sheet_by_index(0)
-print(sh.cell(4,5).value)
+# print(sh.cell(4,5).color_index)
+# xfx = sh.cell_xf_index(4,5)
+# xf = wb.xf_list(xfx)
+# bgx = xf.background.pattern_colour_index
+# print(bgx)
+# pattern_colour = wb.colour_map(bgx)
+# print(pattern_colour)
+
 
 
 #EXCEL to JSON 
@@ -22,13 +29,23 @@ print(sh.cell(4,5).value)
 
 wb = xlrd.open_workbook(EXCEL_FILE)
 sh = wb.sheet_by_index(2)
+rowval = sh.row_values(7)
+print(rowval[3])
+
+main=OrderedDict()
 for x in range(1,sh.nrows):
    rowval = sh.row_values(x)
-   for y in range(1,sh.ncols):
-    if(rowval[y]==''):
-     print("hello")
-    else:
-        print("bye")
+   if(rowval[0]!=''):
+        sub=OrderedDict()
+        for y in range(1,sh.ncols):
+            if(rowval[y]!=''):
+                for z in range(y,sh.ncols)
+                    rowval[y+1]
+
+#     if(rowval[y]==''):
+#      print(x, y, "hello")
+#     else:
+#         print(x, y, "bye")
 # if(sh.row_values(rownum)1)
 
 print(sh.row_values(0))
