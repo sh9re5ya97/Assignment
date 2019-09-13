@@ -3,6 +3,7 @@ import excel2json
 import xlrd
 from collections import OrderedDict
 import json
+import pymongo
 
 EXCEL_FILE = './death-data.xlsx'  # or '../example.xlsx'
 
@@ -29,18 +30,33 @@ sh = wb.sheet_by_index(0)
 
 wb = xlrd.open_workbook(EXCEL_FILE)
 sh = wb.sheet_by_index(2)
+countries=sh.row_values(0)
 rowval = sh.row_values(7)
 print(rowval[3])
 
 main=OrderedDict()
+level=1
 for x in range(1,sh.nrows):
    rowval = sh.row_values(x)
    if(rowval[0]!=''):
-        sub=OrderedDict()
-        for y in range(1,sh.ncols):
+        # sub=OrderedDict()
+        for y in range(1,5):
+
             if(rowval[y]!=''):
+                # break after values appended
+                main.append(7)
+                for z in range(y,sh.ncols):
+
+                    # 
+                    obj=OrderedDict()
+                    obj['country']=countries[y]
+                    obj['deaths']=rowval[y]
+                    main.append(obj)
+                
+                else:
+                    level=level+1
                 for z in range(y,sh.ncols)
-                    rowval[y+1]
+                   sub[]=rowval[y]
 
 #     if(rowval[y]==''):
 #      print(x, y, "hello")
@@ -77,3 +93,18 @@ with open('data.json', 'w') as f:
 
 
 print("Hello")
+
+
+
+# send data to mongo db---------------------------------
+
+client = MongoClient('localhost', 27017)
+db = client['countries_db']
+collection_currency = db['currency']
+
+with open('currencies.json') as f:
+    file_data = json.load(f)
+
+# use collection_currency.insert(file_data) if pymongo version < 3.0
+collection_currency.insert_one(file_data)  
+client.close()
