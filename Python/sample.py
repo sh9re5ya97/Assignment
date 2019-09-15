@@ -96,7 +96,7 @@ print("Hello")
 
 
 
-# send data to mongo db---------------------------------
+# send data to mongo db--------------------------------- 
 
 client = MongoClient('localhost', 27017)
 db = client['countries_db']
