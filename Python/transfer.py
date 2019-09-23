@@ -1,15 +1,11 @@
-
 from collections import OrderedDict
 import xlrd
 import json
-import pymongo
-from pymongo import MongoClient
 
-# pandas.read_excel('./death-data.xlsx','Deaths 2004').to_json('jfile.json')
 wb=xlrd.open_workbook('./death-data.xlsx')
 main=[]
 
-
+# print(wb.sheet_names())
 sh = wb.sheet_by_index(0)
 rowval=sh.row_values(6) 
 print(rowval[7])
@@ -25,6 +21,11 @@ def colnumcause(row):
             col=col-1
     return col
 
+
+  
+
+
+
 for colnum in range(coldata,sh.ncols):
     data=OrderedDict()
     data['country']=rowval[colnum]
@@ -36,6 +37,15 @@ for colnum in range(coldata,sh.ncols):
         data['rates'].append(leveldata)
         
     main.append(data)
+    
+
+
+
+ 
+
+
+
+
 
 
 j = json.dumps(main)
@@ -43,19 +53,6 @@ j = json.dumps(main)
 with open('deathdata.json', 'w') as f:
     f.write(j)
         
-
-# x=pandas.read_json('jfile.json')
-
-myclient = pymongo.MongoClient("mongodb://localhost/27017")
-print(myclient)
-mydb = myclient["kaam"]
-print(mydb)
-mycol = mydb["data"]
-print(mycol)
-with open('deathdata.json','r')as f:
-    file_data=json.load(f)
-mycol.insert_many(file_data)
-myclient.close()
 
 
 
